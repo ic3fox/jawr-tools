@@ -27,11 +27,6 @@
 			<url>license.txt</url>
 		</license>
 	</licenses>
-	<scm>
-		<connection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</connection>
-		<developerConnection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</developerConnection>
-		<url>https://java.net/projects/jawr/sources</url>
-	</scm>
 	<build>
 		<extensions>
 			<extension>
