@@ -23,9 +23,10 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</connection>
-		<developerConnection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</developerConnection>
-		<url>https://java.net/projects/jawr/sources</url>
+		<connection>scm:git:git@github.com:ic3fox/jawr-tools.git</connection>
+		<developerConnection>scm:git:git@github.com:ic3fox/jawr-tools.git</developerConnection>
+		<url>http://github.com/ic3fox/jawr-tools</url>
+		<tag>HEAD</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -255,7 +256,17 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.3.2</version>
+					<version>2.5</version>
+					<configuration>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.scm</groupId>
+							<artifactId>maven-scm-provider-gitexe</artifactId>
+							<version>1.9.1</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -304,9 +315,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>https://svn.java.net/svn/jawr~svn/tools/tags/</tagBase>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
