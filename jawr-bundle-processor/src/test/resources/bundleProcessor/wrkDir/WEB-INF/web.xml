@@ -38,7 +38,7 @@
 		</init-param>
 		<init-param>
 			<param-name>type</param-name>
-			<param-value>img</param-value>
+			<param-value>binary</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

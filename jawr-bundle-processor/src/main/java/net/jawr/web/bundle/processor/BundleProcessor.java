@@ -48,7 +48,7 @@ import net.jawr.web.bundle.processor.renderer.RenderedLink;
 import net.jawr.web.bundle.processor.spring.SpringControllerBundleProcessor;
 import net.jawr.web.config.JawrConfig;
 import net.jawr.web.context.ThreadLocalJawrContext;
-import net.jawr.web.resource.ImageResourcesHandler;
+import net.jawr.web.resource.BinaryResourcesHandler;
 import net.jawr.web.resource.bundle.IOUtils;
 import net.jawr.web.resource.bundle.JoinableResourceBundle;
 import net.jawr.web.resource.bundle.factory.util.PathNormalizer;
@@ -572,7 +572,7 @@ public class BundleProcessor {
 		String appRootDir = "";
 		String jsServletMapping = "";
 		String cssServletMapping = "";
-		String imgServletMapping = "";
+		String binaryServletMapping = "";
 
 		for (Iterator<ServletDefinition> iterator = jawrServletDefinitions
 				.iterator(); iterator.hasNext();) {
@@ -594,7 +594,7 @@ public class BundleProcessor {
 			}
 
 			ResourceBundlesHandler bundleHandler = null;
-			ImageResourcesHandler imgRsHandler = null;
+			BinaryResourcesHandler binaryRsHandler = null;
 
 			// Retrieve the bundle Handler
 			ServletContext servletContext = servletConfig.getServletContext();
@@ -627,11 +627,11 @@ public class BundleProcessor {
 					cssServletMapping = PathNormalizer
 							.asPath(jawrServletMapping);
 				}
-			} else if (type.equals(JawrConstant.IMG_TYPE)) {
-				imgRsHandler = (ImageResourcesHandler) servletContext
-						.getAttribute(JawrConstant.IMG_CONTEXT_ATTRIBUTE);
+			} else if (type.equals(JawrConstant.IMG_TYPE) || type.equals(JawrConstant.BINARY_TYPE)) {
+				binaryRsHandler = (BinaryResourcesHandler) servletContext
+						.getAttribute(JawrConstant.BINARY_CONTEXT_ATTRIBUTE);
 				if (jawrServletMapping != null) {
-					imgServletMapping = PathNormalizer
+					binaryServletMapping = PathNormalizer
 							.asPath(jawrServletMapping);
 				}
 			}
@@ -639,15 +639,15 @@ public class BundleProcessor {
 			if (bundleHandler != null) {
 				createBundles(servletDef.getServlet(), bundleHandler,
 						destDirPath, servletMapping, keepUrlMapping);
-			} else if (imgRsHandler != null) {
-				createImageBundle(servletDef.getServlet(), imgRsHandler,
+			} else if (binaryRsHandler != null) {
+				createBinaryBundle(servletDef.getServlet(), binaryRsHandler,
 						destDirPath, servletConfig, keepUrlMapping);
 			}
 		}
 
 		// Create the apache rewrite config file.
 		createApacheRewriteConfigFile(destDirPath, appRootDir,
-				jsServletMapping, cssServletMapping, imgServletMapping);
+				jsServletMapping, cssServletMapping, binaryServletMapping);
 
 	}
 
@@ -996,8 +996,8 @@ public class BundleProcessor {
 	 * 
 	 * @param servlet
 	 *            the servlet
-	 * @param imgRsHandler
-	 *            the image resource handler
+	 * @param binaryRsHandler
+	 *            the binary resource handler
 	 * @param destDirPath
 	 *            the destination directory path
 	 * @param servletMapping
@@ -1009,11 +1009,11 @@ public class BundleProcessor {
 	 * @throws ServletException
 	 *             if an exception occurs
 	 */
-	protected void createImageBundle(HttpServlet servlet,
-			ImageResourcesHandler imgRsHandler, String destDirPath,
+	protected void createBinaryBundle(HttpServlet servlet,
+			BinaryResourcesHandler binaryRsHandler, String destDirPath,
 			ServletConfig servletConfig, boolean keepUrlMapping)
 			throws IOException, ServletException {
-		Map<String, String> bundleImgMap = imgRsHandler.getImageMap();
+		Map<String, String> bundleImgMap = binaryRsHandler.getBinaryPathMap();
 
 		Iterator<String> bundleIterator = bundleImgMap.values().iterator();
 		MockServletResponse response = new MockServletResponse();
@@ -1036,16 +1036,16 @@ public class BundleProcessor {
 		while (bundleIterator.hasNext()) {
 			String path = (String) bundleIterator.next();
 
-			String imageFinalPath = null;
+			String binaryFinalPath = null;
 
 			if (keepUrlMapping) {
-				imageFinalPath = path;
+				binaryFinalPath = path;
 			} else {
-				imageFinalPath = getImageFinalPath(path,
-						imgRsHandler.getConfig());
+				binaryFinalPath = getImageFinalPath(path,
+						binaryRsHandler.getConfig());
 			}
 
-			File destFile = new File(destDirPath, imageFinalPath);
+			File destFile = new File(destDirPath, binaryFinalPath);
 
 			// Update the bundle mapping
 			path = PathNormalizer.concatWebPath(
