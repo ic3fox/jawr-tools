@@ -936,7 +936,7 @@ public class BundleProcessor {
 			// For example, with local variant = 'en'
 			// /bundle/myBundle.js -> /bundle/myBundle_en.js
 			finalPath = VariantUtils
-					.getVariantBundleName(finalPath, variantMap);
+					.getVariantBundleName(finalPath, variantMap, false);
 		}
 
 		return finalPath;
