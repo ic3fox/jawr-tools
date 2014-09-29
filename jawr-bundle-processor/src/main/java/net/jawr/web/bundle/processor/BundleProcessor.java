@@ -627,7 +627,7 @@ public class BundleProcessor {
 					cssServletMapping = PathNormalizer
 							.asPath(jawrServletMapping);
 				}
-			} else if (type.equals(JawrConstant.IMG_TYPE) || type.equals(JawrConstant.BINARY_TYPE)) {
+			} else if (type.equals(JawrConstant.BINARY_TYPE)) {
 				binaryRsHandler = (BinaryResourcesHandler) servletContext
 						.getAttribute(JawrConstant.BINARY_CONTEXT_ATTRIBUTE);
 				if (jawrServletMapping != null) {
