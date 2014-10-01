@@ -44,7 +44,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.jawr.extensions</groupId>
-			<artifactId>jawr-spring-2.0.x-extension</artifactId>
+			<artifactId>jawr-spring-extension</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>ant</groupId>
